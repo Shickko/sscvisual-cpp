@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.23)
 project(SSCVInject)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -25,6 +28,8 @@ target_link_libraries(internal
       imgui
       glfw
       OpenGL::GL
+      OpenSSL::SSL
+      OpenSSL::Crypto
       nlohmann_json
 )
 target_sources(internal PRIVATE ${fp_internal})
@@ -55,8 +60,6 @@ target_compile_definitions(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
-    OpenSSL::SSL
-    OpenSSL::Crypto
     internal
     imgui
 )

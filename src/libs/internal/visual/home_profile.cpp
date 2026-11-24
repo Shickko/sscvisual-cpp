@@ -10,7 +10,7 @@
 #include <ctime>
 
 static internal::components::steamcli_t 
-steamcli(); // currently hardcoded,
+steamcli("KEY", "UID"); // currently hardcoded,
             // will be reading from
             // conf in the future.
 
