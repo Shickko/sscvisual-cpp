@@ -1,8 +1,8 @@
 #ifndef INTERNAL_H_COMP_STEAMCURL
 #define INTERNAL_H_COMP_STEAMCURL
-#include <ctime>
 #include <string>
 #include <vector>
+#include <ctime>
 
 namespace internal::components {
   struct steamdt_player_summaries {
@@ -22,16 +22,18 @@ namespace internal::components {
     long friend_since { 0 };
   };
 
-  using steamdt_player_summaries_arr = std::vector<steamdt_player_summaries>;
-  using steamdt_player_friends       = std::vector<steamdt_player_friend>;
+  typedef std::vector<steamdt_player_summaries> 
+    steamdt_player_summaries_arr;
+  typedef std::vector<steamdt_player_friend>    
+    steamdt_player_friends;
 
   class steamcli_t {
     private:
       std::string authkey_;
       std::string authid_;
     public:
+      steamcli_t();
       steamcli_t(std::string authkey, std::string authid);
-
       steamdt_player_summaries player_summaries(const char* steamid);
       steamdt_player_summaries_arr players_summaries(const char* steamids);
       steamdt_player_friends player_friendlist(const char* steamid);
@@ -40,6 +42,7 @@ namespace internal::components {
 
       std::string get_authkey();
       std::string get_authid();
+      void set(std::string authkey, std::string authid);
   };
 }
 #endif

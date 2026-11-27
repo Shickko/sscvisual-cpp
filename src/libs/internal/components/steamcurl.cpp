@@ -97,11 +97,16 @@ static steamdt_player_friend steamdt_player_friend_set(json& j) {
   return r;
 }
 
+steamcli_t::steamcli_t()
+  : authkey_(), authid_() {}
 steamcli_t::steamcli_t(std::string authkey, std::string authid)
   : authkey_(authkey), authid_(authid) {}
 
 std::string steamcli_t::get_authkey() { return authkey_; }
 std::string steamcli_t::get_authid()  { return authid_; }
+
+void steamcli_t::set(std::string authkey, std::string authid)
+{ authkey_ = authkey; authid_ = authid; }
 
 std::string steamcli_t::player_vanityurl(const char* vanity) {
   if (vanity == nullptr) { return ""; }

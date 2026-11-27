@@ -1,5 +1,7 @@
+#include <components/config.h>
 #include <graphics/glfw_window.h>
 #include <visual/home_profile.h>
+#include <visual/sscv_main.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_glfw.h>
 #include <imgui.h>
@@ -10,6 +12,8 @@
 #include <iostream>
 
 using namespace internal::visual;
+static bool initialized { false };
+static int  exit_code   { 0 };
 
 int main(int argc, char* argv[]) {
   GLFWwindow* window = internal::graphics::glfw_window_create();
@@ -30,7 +34,16 @@ int main(int argc, char* argv[]) {
     ImGui::NewFrame();
 
     /*[[ Main Block Start ]]*/
-    sscv_create_home_profile();
+    if (!initialized) {
+      initialized = internal::components::conf::sscv_config_init() == SSCVCONF_SUCCESS 
+        ? true
+        : false;
+      std::cout << "[[SSCV >> initialization status: " 
+                << (initialized == false ? "failure" : "complete")
+                << std::endl; 
+      if (!initialized) { goto sscv_shutdown; }
+    } 
+    sscv_main_init();
     /*[[ Main Block End ]]*/
 
     ImGui::Render();
@@ -38,10 +51,12 @@ int main(int argc, char* argv[]) {
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     glfwSwapBuffers(window);
   }
+
+sscv_shutdown:
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
   ImGui::DestroyContext();
   internal::graphics::glfw_window_destroy(window);
-  std::cout << "[[SSCV session end >> shutdown called" << std::endl;
+  std::cout << "[[SSCV >> session end >> shutdown called" << std::endl;
   return 0;
 }
