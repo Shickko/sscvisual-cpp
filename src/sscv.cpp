@@ -1,6 +1,5 @@
 #include <components/config.h>
 #include <graphics/glfw_window.h>
-#include <visual/home_profile.h>
 #include <visual/sscv_main.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_glfw.h>
